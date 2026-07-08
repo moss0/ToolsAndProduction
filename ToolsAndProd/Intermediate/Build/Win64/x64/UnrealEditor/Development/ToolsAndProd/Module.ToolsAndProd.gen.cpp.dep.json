@@ -1,0 +1,32 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\toolsandprod\\module.toolsandprod.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\x64\\toolsandprodeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\toolsandprod\\definitions.toolsandprod.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fcombineduserdata.gen.cpp",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\fcombineduserdata.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\fcombined_qa.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\fsingle_qa.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fsingle_qa.generated.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fcombined_qa.generated.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\fuserhardwaredata.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fuserhardwaredata.generated.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fcombineduserdata.generated.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fcombined_qa.gen.cpp",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fsingle_qa.gen.cpp",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fuserhardwaredata.gen.cpp",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\mydatathing.gen.cpp",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\mydatathing.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\interfaces\\ihttprequest.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\interfaces\\ihttpbase.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\httpmodule.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\mydatathing.generated.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\toolsandprod.init.gen.cpp"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

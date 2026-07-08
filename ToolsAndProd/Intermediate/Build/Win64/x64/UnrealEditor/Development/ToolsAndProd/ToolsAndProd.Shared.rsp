@@ -1,4 +1,5 @@
 /I "."
+/I "D:/GitHub/ToolsAndProduction/ToolsAndProd/Intermediate/Build/Win64/UnrealEditor/Inc/ToolsAndProd/UHT"
 /I "D:/GitHub/ToolsAndProduction/ToolsAndProd/Source"
 /I "Runtime/Core/Public"
 /I "Runtime/TraceLog/Public"

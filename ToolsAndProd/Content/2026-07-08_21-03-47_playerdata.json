@@ -1,0 +1,71 @@
+{
+	"fileName": "2026-07-08_21-03-47_playerdata.json",
+	"timePlayed": "0h 00m 00s",
+	"userHardwareData":
+	{
+		"cPUBrand": "AMD Ryzen 5 5600X 6-Core Processor             ",
+		"cPUCoreCount": 6,
+		"gPUBrand": "AMD Radeon RX 6600",
+		"renderingPlatform": "PCD3D_SM6",
+		"totalPhysicalRAM_GB": "16",
+		"oSVersion": "Windows 11 (25H2) [10.0.26200.8655] "
+	},
+	"combined_QA":
+	{
+		"no1":
+		{
+			"question": "Do you enjoy card games?",
+			"answer": "Nothing selected"
+		},
+		"no2":
+		{
+			"question": "What would you rate Greedy Piggies overall?",
+			"answer": "-1 / 5"
+		},
+		"no3":
+		{
+			"question": "How many bugs did you encounter?",
+			"answer": "Nothing selected"
+		},
+		"no4":
+		{
+			"question": "If you encountered any bugs, please state them below.",
+			"answer": ""
+		},
+		"no5":
+		{
+			"question": "What did you dislike about the gameplay?",
+			"answer": ""
+		},
+		"no6":
+		{
+			"question": "What did you enjoy about the gameplay?",
+			"answer": ""
+		},
+		"no7":
+		{
+			"question": "What do you think would make the gameplay better?",
+			"answer": ""
+		},
+		"no8":
+		{
+			"question": "What did you dislike about the audio?",
+			"answer": ""
+		},
+		"no9":
+		{
+			"question": "What did you enjoy about the audio?",
+			"answer": ""
+		},
+		"no10":
+		{
+			"question": "What do you think would make the audio better?",
+			"answer": ""
+		},
+		"no11":
+		{
+			"question": "Did you experience any connection issues? If so, please describe them here.",
+			"answer": ""
+		}
+	}
+}

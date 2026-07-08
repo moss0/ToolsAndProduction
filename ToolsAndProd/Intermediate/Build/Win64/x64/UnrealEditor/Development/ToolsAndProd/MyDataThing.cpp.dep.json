@@ -1,0 +1,32 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\mydatathing.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\x64\\toolsandprodeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\toolsandprod\\definitions.toolsandprod.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\mydatathing.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\fcombineduserdata.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\fcombined_qa.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\fsingle_qa.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fsingle_qa.generated.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fcombined_qa.generated.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\fuserhardwaredata.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fuserhardwaredata.generated.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\fcombineduserdata.generated.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\interfaces\\ihttprequest.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\interfaces\\ihttpbase.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\httpmodule.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\unrealeditor\\inc\\toolsandprod\\uht\\mydatathing.generated.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\jsonutilities\\public\\jsonobjectconverter.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\jsonutilities\\public\\jsonobjectwrapper.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\jsonutilities\\uht\\jsonobjectwrapper.generated.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\interfaces\\ihttpresponse.h",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\interfaces\\ihttpresponsecodes.inl",
+            "d:\\unrealengine\\ue_5.6\\engine\\source\\runtime\\online\\http\\public\\interfaces\\ihttpresponsecodes.inl"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
