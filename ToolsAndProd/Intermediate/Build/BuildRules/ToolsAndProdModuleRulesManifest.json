@@ -1,8 +1,0 @@
-{
-	"SourceFiles": [
-		"D:\\GitHub\\ToolsAndProduction\\ToolsAndProd\\Source\\ToolsAndProd\\ToolsAndProd.Build.cs",
-		"D:\\GitHub\\ToolsAndProduction\\ToolsAndProd\\Source\\ToolsAndProd.Target.cs",
-		"D:\\GitHub\\ToolsAndProduction\\ToolsAndProd\\Source\\ToolsAndProdEditor.Target.cs"
-	],
-	"EngineVersion": "5.6.1"
-}

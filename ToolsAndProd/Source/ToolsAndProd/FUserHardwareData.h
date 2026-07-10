@@ -9,7 +9,7 @@ struct FUserHardwareData
 	GENERATED_BODY()
 
 	UPROPERTY() FString CPUBrand = "Unknown";
-	UPROPERTY() int32 CPUCoreCount = -1;
+	UPROPERTY() FString CPUCoreCount = "Unknown";
 
 	UPROPERTY() FString GPUBrand = "Unknown";
 	UPROPERTY() FString renderingPlatform = "Unknown";

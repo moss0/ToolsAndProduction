@@ -9,52 +9,87 @@
 #include "GenericPlatform/GenericPlatformMisc.h"
 #include "HAL/PlatformMemory.h"
 #include "RHI.h"
-#include "Algo/ForEach.h"
+//#include "Algo/ForEach.h"
 #include "Interfaces/IHttpRequest.h"
 #include "Interfaces/IHttpResponse.h"
 
 FString JsonString;
 
-
-
-FString userHardwareData;
-FString ;
-
 void UMyDataThing::CSV_Maker(float secondsPlayed, FCombined_QA combined_QA)
 {
 	FString CSV_String;
 	
-	FString fileName = FileNameMaker();
+	FString fileType = "csv";
+	FString fileName = FileNameMaker(fileType);
 	FString timePlayed = TimePlayedFormatter(secondsPlayed);
 	
-	FString Rows[17];
-	Rows[0] = FString::Printf(TEXT("Name,%s"), *fileName);
-	Rows[1] = FString::Printf(TEXT("Time played,%s"), *timePlayed);
-	Rows[2] = TEXT("");
-	Rows[3] = TEXT("User hardware data");
-	Rows[4] = FString::Printf(TEXT("CPU brand,%s"), *GetUserHardware().CPUBrand);
-	//Rows[5] = FString::Printf(TEXT("CPU core count,%s"), *GetUserHardware().CPUCoreCount);
+	FString MiscRows[3];
+	FString HardwareDataRows[8];
+	FString SurveyRows[12];
+	
+	MiscRows[0] = FString::Printf(TEXT("Name,%s\n"), *fileName);
+	MiscRows[1] = FString::Printf(TEXT("Time played,%s\n"), *timePlayed);
+	MiscRows[2] = TEXT("\n");
+	
+	HardwareDataRows[0] = TEXT("User hardware data\n");
+	HardwareDataRows[1] = FString::Printf(TEXT("CPU brand,%s\n"), *GetUserHardware().CPUBrand);
+	HardwareDataRows[2] = FString::Printf(TEXT("CPU core count,%s\n"), *GetUserHardware().CPUCoreCount);
+	HardwareDataRows[3] = FString::Printf(TEXT("GPU brand,%s\n"), *GetUserHardware().GPUBrand);
+	HardwareDataRows[4] = FString::Printf(TEXT("Rendering platform,%s\n"), *GetUserHardware().renderingPlatform);
+	HardwareDataRows[5] = FString::Printf(TEXT("RAM GB,%s\n"), *GetUserHardware().totalPhysicalRAM_GB);
+	HardwareDataRows[6] = FString::Printf(TEXT("OS Version,%s\n"), *GetUserHardware().OSVersion);
+	HardwareDataRows[7] = TEXT("\n");
+	
+	SurveyRows[0] = TEXT("Survey form results\n");
+	SurveyRows[1] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no1.Question.ToString(), *combined_QA.no1.Answer.ToString());
+	SurveyRows[2] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no2.Question.ToString(), *combined_QA.no2.Answer.ToString());
+	SurveyRows[3] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no3.Question.ToString(), *combined_QA.no3.Answer.ToString());
+	SurveyRows[4] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no4.Question.ToString(), *combined_QA.no4.Answer.ToString());
+	SurveyRows[5] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no5.Question.ToString(), *combined_QA.no5.Answer.ToString());
+	SurveyRows[6] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no6.Question.ToString(), *combined_QA.no6.Answer.ToString());
+	SurveyRows[7] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no7.Question.ToString(), *combined_QA.no7.Answer.ToString());
+	SurveyRows[8] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no8.Question.ToString(), *combined_QA.no8.Answer.ToString());
+	SurveyRows[9] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no9.Question.ToString(), *combined_QA.no9.Answer.ToString());
+	SurveyRows[10] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no10.Question.ToString(), *combined_QA.no10.Answer.ToString());
+	SurveyRows[11] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no11.Question.ToString(), *combined_QA.no11.Answer.ToString());
 	
 	
-	for(FString row : Rows)
+	
+	for(FString row : MiscRows)
+	{
+		CSV_String += row;
+	}
+	for(FString row : HardwareDataRows)
+	{
+		CSV_String += row;
+	}
+	for(FString row : SurveyRows)
 	{
 		CSV_String += row;
 	}
 	
-	//FString NewRow = FString::Printf(TEXT("\"%s\",\"%s\",%d\n"), *PlayerName, *ObtainedItem, TotalScore);
-	
+	CSV_Sender(CSV_String);
 }
 
-void UMyDataThing::CSV_Sender()
+void UMyDataThing::CSV_Sender(FString CSV_String)
 {
+	FString fileType = "csv";
+	FString fileName = FileNameMaker(fileType);
 	
+	FString savePath = FPaths::ProjectContentDir() + fileName;
+	FFileHelper::SaveStringToFile(CSV_String, *savePath);
+	
+	FString fileLocationMsg = "File saved to: " + savePath;
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 30.f, FColor::Orange, fileLocationMsg);
 }
 
 void UMyDataThing::JsonMakerAndSender(float secondsPlayed, FCombined_QA combined_QA)
 {
 	FCombinedUserData combinedUserData;
 	
-	FString fileName = FileNameMaker();
+	FString fileType = "json";
+	FString fileName = FileNameMaker(fileType);
 
 	
 	combinedUserData.fileName = fileName;
@@ -80,7 +115,7 @@ FUserHardwareData UMyDataThing::GetUserHardware()
 	FUserHardwareData userHardwareData;
 	
 	userHardwareData.CPUBrand = FPlatformMisc::GetCPUBrand();
-	userHardwareData.CPUCoreCount = FPlatformMisc::NumberOfCores();
+	userHardwareData.CPUCoreCount = FString::FromInt(FPlatformMisc::NumberOfCores());
 	
 	if (GDynamicRHI)
 	{
@@ -136,17 +171,18 @@ void UMyDataThing::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr 
 	}
 }
 
-FString UMyDataThing::FileNameMaker()
+FString UMyDataThing::FileNameMaker(FString fileType)
 {
 	FDateTime now = FDateTime::UtcNow();
 
-	FString fileName = FString::Printf(TEXT("%d-%02d-%02d_%02d-%02d-%02d_playerdata.json"),
+	FString fileName = FString::Printf(TEXT("%d-%02d-%02d_%02d-%02d-%02d_playerdata.%s"),
 	now.GetYear(),
 	now.GetMonth(),
 	now.GetDay(),
 	now.GetHour(),
 	now.GetMinute(),
-	now.GetSecond()
+	now.GetSecond(),
+	*fileType
 	);
 	
 	return fileName;
