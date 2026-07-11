@@ -15,6 +15,63 @@
 
 FString JsonString;
 
+
+void UMyDataThing::MakeAndSendToServer(float secondsPlayed, FCombined_QA combined_QA)
+{
+	TSharedPtr<FJsonObject> RootObject = MakeShareable(new FJsonObject());
+
+	// 2. Add your fields (These keys MUST match your Supabase column names exactly)
+	RootObject->SetStringField(TEXT("name"), FileNameMaker("csv"));
+	RootObject->SetStringField(TEXT("time_played"), TimePlayedFormatter(secondsPlayed));
+	
+	
+	FUserHardwareData Hardware = GetUserHardware();
+	RootObject->SetStringField(TEXT("cpu_brand"), Hardware.CPUBrand);
+	RootObject->SetStringField(TEXT("cpu_cores"), Hardware.CPUCoreCount);
+	RootObject->SetStringField(TEXT("GPU brand"), Hardware.GPUBrand);
+	RootObject->SetStringField(TEXT("Rendering platform"), Hardware.renderingPlatform);
+	RootObject->SetStringField(TEXT("RAM GB"), Hardware.totalPhysicalRAM_GB);
+	RootObject->SetStringField(TEXT("OS Version"), Hardware.OSVersion);
+	
+	
+	RootObject->SetStringField(TEXT("q1_answer"), combined_QA.no1.Answer.ToString());
+	RootObject->SetStringField(TEXT("q2_answer"), combined_QA.no2.Answer.ToString());
+	RootObject->SetStringField(TEXT("q3_answer"), combined_QA.no3.Answer.ToString());
+	RootObject->SetStringField(TEXT("q4_answer"), combined_QA.no4.Answer.ToString());
+	RootObject->SetStringField(TEXT("q5_answer"), combined_QA.no5.Answer.ToString());
+	RootObject->SetStringField(TEXT("q6_answer"), combined_QA.no6.Answer.ToString());
+	RootObject->SetStringField(TEXT("q7_answer"), combined_QA.no7.Answer.ToString());
+	RootObject->SetStringField(TEXT("q8_answer"), combined_QA.no8.Answer.ToString());
+	RootObject->SetStringField(TEXT("q9_answer"), combined_QA.no9.Answer.ToString());
+	RootObject->SetStringField(TEXT("q10_answer"), combined_QA.no10.Answer.ToString());
+	RootObject->SetStringField(TEXT("q11_answer"), combined_QA.no11.Answer.ToString());
+	
+	
+	FString RequestContent;
+	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&RequestContent);
+	FJsonSerializer::Serialize(RootObject.ToSharedRef(), Writer);
+
+	// 5. Send the request
+	FString ProjectID = TEXT("ilsrbqwxkdtaebnvmllj");
+	FString TableName = TEXT("PlayerInfo");
+	FString URL = FString::Printf(TEXT("https://%s.supabase.co/rest/v1/%s"), *ProjectID, *TableName);
+    
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = FHttpModule::Get().CreateRequest();
+	Request->SetURL(URL);
+	Request->SetVerb("POST");
+	Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
+	Request->SetHeader(TEXT("apikey"), TEXT("sb_publishable_WVN2I77W9HEjaWJDal4lOg_flpujFFP")); // Use your actual key
+	Request->SetHeader(TEXT("Authorization"), TEXT("sb_publishable_WVN2I77W9HEjaWJDal4lOg_flpujFFP"));
+    
+	Request->SetContentAsString(RequestContent);
+	Request->ProcessRequest();
+}
+
+
+
+
+
+
 void UMyDataThing::CSV_Maker(float secondsPlayed, FCombined_QA combined_QA)
 {
 	FString CSV_String;
@@ -25,7 +82,7 @@ void UMyDataThing::CSV_Maker(float secondsPlayed, FCombined_QA combined_QA)
 	
 	FString MiscRows[3];
 	FString HardwareDataRows[8];
-	FString SurveyRows[12];
+	FString SurveyRows[13];
 	
 	MiscRows[0] = FString::Printf(TEXT("Name,%s\n"), *fileName);
 	MiscRows[1] = FString::Printf(TEXT("Time played,%s\n"), *timePlayed);
@@ -52,7 +109,7 @@ void UMyDataThing::CSV_Maker(float secondsPlayed, FCombined_QA combined_QA)
 	SurveyRows[9] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no9.Question.ToString(), *combined_QA.no9.Answer.ToString());
 	SurveyRows[10] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no10.Question.ToString(), *combined_QA.no10.Answer.ToString());
 	SurveyRows[11] = FString::Printf(TEXT("%s,%s\n"), *combined_QA.no11.Question.ToString(), *combined_QA.no11.Answer.ToString());
-	
+	SurveyRows[12] = TEXT("\n");
 	
 	
 	for(FString row : MiscRows)
@@ -68,10 +125,35 @@ void UMyDataThing::CSV_Maker(float secondsPlayed, FCombined_QA combined_QA)
 		CSV_String += row;
 	}
 	
+	//CSV_Saver(CSV_String);
 	CSV_Sender(CSV_String);
 }
 
 void UMyDataThing::CSV_Sender(FString CSV_String)
+{
+	FString ProjectID = TEXT("ilsrbqwxkdtaebnvmllj");
+	FString TableName = TEXT("PlayerInfo");
+	FString APIKey = TEXT("sb_publishable_WVN2I77W9HEjaWJDal4lOg_flpujFFP");
+
+	FString URL = FString::Printf(TEXT("https://%s.supabase.co/rest/v1/%s"), *ProjectID, *TableName);
+
+	//Send string
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = FHttpModule::Get().CreateRequest();
+	Request->SetURL(URL);
+	Request->SetVerb("POST");
+
+	Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
+	Request->SetHeader(TEXT("apikey"), APIKey);
+	Request->SetHeader(TEXT("Authorization"), FString::Printf(TEXT("Bearer %s"), *APIKey));
+	
+	Request->SetContentAsString(CSV_String);
+
+	Request->OnProcessRequestComplete().BindUObject(this, &UMyDataThing::OnResponseReceived);
+	Request->ProcessRequest();
+}
+
+
+void UMyDataThing::CSV_Saver(FString CSV_String)
 {
 	FString fileType = "csv";
 	FString fileName = FileNameMaker(fileType);

@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\toolsandprod.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\x64\\toolsandprodeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "d:\\github\\toolsandproduction\\toolsandprod\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\toolsandprod\\definitions.toolsandprod.h",
+            "d:\\github\\toolsandproduction\\toolsandprod\\source\\toolsandprod\\toolsandprod.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
