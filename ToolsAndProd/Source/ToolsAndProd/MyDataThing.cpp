@@ -19,8 +19,8 @@ FString JsonString;
 void UMyDataThing::MakeAndSendToServer(float secondsPlayed, FCombined_QA combined_QA)
 {
 	TSharedPtr<FJsonObject> RootObject = MakeShareable(new FJsonObject());
-
-	// 2. Add your fields (These keys MUST match your Supabase column names exactly)
+	
+	
 	RootObject->SetStringField(TEXT("name"), FileNameMaker("csv"));
 	RootObject->SetStringField(TEXT("time_played"), TimePlayedFormatter(secondsPlayed));
 	
@@ -28,30 +28,29 @@ void UMyDataThing::MakeAndSendToServer(float secondsPlayed, FCombined_QA combine
 	FUserHardwareData Hardware = GetUserHardware();
 	RootObject->SetStringField(TEXT("cpu_brand"), Hardware.CPUBrand);
 	RootObject->SetStringField(TEXT("cpu_cores"), Hardware.CPUCoreCount);
-	RootObject->SetStringField(TEXT("GPU brand"), Hardware.GPUBrand);
-	RootObject->SetStringField(TEXT("Rendering platform"), Hardware.renderingPlatform);
-	RootObject->SetStringField(TEXT("RAM GB"), Hardware.totalPhysicalRAM_GB);
-	RootObject->SetStringField(TEXT("OS Version"), Hardware.OSVersion);
+	RootObject->SetStringField(TEXT("gpu_brand"), Hardware.GPUBrand);
+	RootObject->SetStringField(TEXT("rendering_platform"), Hardware.renderingPlatform);
+	RootObject->SetStringField(TEXT("ram_gb"), Hardware.totalPhysicalRAM_GB);
+	RootObject->SetStringField(TEXT("os_version"), Hardware.OSVersion);
 	
 	
-	RootObject->SetStringField(TEXT("q1_answer"), combined_QA.no1.Answer.ToString());
-	RootObject->SetStringField(TEXT("q2_answer"), combined_QA.no2.Answer.ToString());
-	RootObject->SetStringField(TEXT("q3_answer"), combined_QA.no3.Answer.ToString());
-	RootObject->SetStringField(TEXT("q4_answer"), combined_QA.no4.Answer.ToString());
-	RootObject->SetStringField(TEXT("q5_answer"), combined_QA.no5.Answer.ToString());
-	RootObject->SetStringField(TEXT("q6_answer"), combined_QA.no6.Answer.ToString());
-	RootObject->SetStringField(TEXT("q7_answer"), combined_QA.no7.Answer.ToString());
-	RootObject->SetStringField(TEXT("q8_answer"), combined_QA.no8.Answer.ToString());
-	RootObject->SetStringField(TEXT("q9_answer"), combined_QA.no9.Answer.ToString());
-	RootObject->SetStringField(TEXT("q10_answer"), combined_QA.no10.Answer.ToString());
-	RootObject->SetStringField(TEXT("q11_answer"), combined_QA.no11.Answer.ToString());
+	RootObject->SetStringField(TEXT("do_you_enjoy_card_games"), combined_QA.no1.Answer.ToString());
+	RootObject->SetStringField(TEXT("what_would_you_rate_greedy_piggies_overall"), combined_QA.no2.Answer.ToString());
+	RootObject->SetStringField(TEXT("how_many_bugs_did_you_encounter"), combined_QA.no3.Answer.ToString());
+	RootObject->SetStringField(TEXT("if_you_encountered_any_bugs_please_state_them_below"), combined_QA.no4.Answer.ToString());
+	RootObject->SetStringField(TEXT("what_did_you_dislike_about_the_gameplay"), combined_QA.no5.Answer.ToString());
+	RootObject->SetStringField(TEXT("what_did_you_enjoy_about_the_gameplay"), combined_QA.no6.Answer.ToString());
+	RootObject->SetStringField(TEXT("what_do_you_think_would_make_the_gameplay_better"), combined_QA.no7.Answer.ToString());
+	RootObject->SetStringField(TEXT("what_did_you_dislike_about_the_audio"), combined_QA.no8.Answer.ToString());
+	RootObject->SetStringField(TEXT("what_did_you_enjoy_about_the_audio"), combined_QA.no9.Answer.ToString());
+	RootObject->SetStringField(TEXT("what_do_you_think_would_make_the_audio_better"), combined_QA.no10.Answer.ToString());
+	RootObject->SetStringField(TEXT("did_you_experience_any_connection_issues"), combined_QA.no11.Answer.ToString());
 	
 	
 	FString RequestContent;
 	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&RequestContent);
 	FJsonSerializer::Serialize(RootObject.ToSharedRef(), Writer);
-
-	// 5. Send the request
+	
 	FString ProjectID = TEXT("ilsrbqwxkdtaebnvmllj");
 	FString TableName = TEXT("PlayerInfo");
 	FString URL = FString::Printf(TEXT("https://%s.supabase.co/rest/v1/%s"), *ProjectID, *TableName);
@@ -60,10 +59,35 @@ void UMyDataThing::MakeAndSendToServer(float secondsPlayed, FCombined_QA combine
 	Request->SetURL(URL);
 	Request->SetVerb("POST");
 	Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
-	Request->SetHeader(TEXT("apikey"), TEXT("sb_publishable_WVN2I77W9HEjaWJDal4lOg_flpujFFP")); // Use your actual key
-	Request->SetHeader(TEXT("Authorization"), TEXT("sb_publishable_WVN2I77W9HEjaWJDal4lOg_flpujFFP"));
+	
+	FString PublicAnonKey = TEXT("sb_publishable_WVN2I77W9HEjaWJDal4lOg_flpujFFP");
+	Request->SetHeader(TEXT("apikey"), PublicAnonKey); 
+	Request->SetHeader(TEXT("Authorization"), FString::Printf(TEXT("Bearer %s"), *PublicAnonKey));
     
 	Request->SetContentAsString(RequestContent);
+	
+	Request->OnProcessRequestComplete().BindLambda([](FHttpRequestPtr RequestPtr, FHttpResponsePtr ResponsePtr, bool bWasSuccessful)
+	{
+		if (bWasSuccessful && ResponsePtr.IsValid())
+		{
+			int32 ResponseCode = ResponsePtr->GetResponseCode();
+			FString ResponseBody = ResponsePtr->GetContentAsString();
+			
+			if (ResponseCode == 201 || ResponseCode == 200)
+			{
+				UE_LOG(LogTemp, Log, TEXT("Supabase Insert Successful!"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Supabase Error! Code: %d, Response: %s"), ResponseCode, *ResponseBody);
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("HTTP Request failed entirely. Check network connection or URL layout."));
+		}
+	});
+	
 	Request->ProcessRequest();
 }
 
