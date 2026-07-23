@@ -13,16 +13,10 @@ class TOOLSANDPROD_API UMyDataThing : public UBlueprintFunctionLibrary
 	
 public:
 	UFUNCTION(BlueprintCallable, Category = "MyDataFileMakers") static void MakeAndSendToServer(float secondsPlayed, const FCombined_QA combined_QA);
-	UFUNCTION(BlueprintCallable, Category = "MyDataFileMakers") void CSV_Maker(float secondsPlayed, const FCombined_QA combined_QA);
-	static void CSV_Saver(FString CSV_String);
-	void CSV_Sender(FString CSV_String);
-	UFUNCTION(BlueprintCallable, Category = "MyDataFileMakers") static void JsonMakerAndSender(float secondsPlayed, const FCombined_QA combined_QA);
 protected:
 	
 private:
 	static FUserHardwareData GetUserHardware();
-	void SendJson();
-	void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 	FString static FileNameMaker(FString fileType);
 	FString static TimePlayedFormatter(float secondsPlayed);
 };
